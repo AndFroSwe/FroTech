@@ -74,11 +74,18 @@
 // From module: Generic board support
 #include <board.h>
 
+// From module: INTC - Interrupt Controller
+#include <intc.h>
+
 // From module: Interrupt management - UC3 implementation
 #include <interrupt.h>
 
 // From module: LCD Display - DIP204B-4ORT01
 #include <dip204.h>
+
+// From module: PM Power Manager- UC3 A0/A1/A3/A4/B0/B1 implementation
+#include <power_clocks_lib.h>
+#include <sleep.h>
 
 // From module: PWM - UC3 A/B implementation
 #include <pwm.h>

@@ -47,6 +47,7 @@ SUBDIRS :=  \
 ../src/ASF/avr32/drivers/flashc/ \
 ../src/ASF/avr32/drivers/gpio/ \
 ../src/ASF/avr32/drivers/intc/ \
+../src/ASF/avr32/drivers/pm/ \
 ../src/ASF/avr32/drivers/pwm/ \
 ../src/ASF/avr32/drivers/spi/ \
 ../src/ASF/avr32/utils/ \
@@ -73,6 +74,9 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../src/ASF/avr32/components/display/dip204/dip204.c \
 ../src/ASF/avr32/drivers/flashc/flashc.c \
+../src/ASF/avr32/drivers/pm/pm.c \
+../src/ASF/avr32/drivers/pm/pm_conf_clocks.c \
+../src/ASF/avr32/drivers/pm/power_clocks_lib.c \
 ../src/ASF/avr32/drivers/pwm/pwm.c \
 ../src/ASF/common/services/clock/uc3a0_a1/sysclk.c \
 ../src/ASF/avr32/drivers/spi/spi.c \
@@ -95,6 +99,9 @@ ASM_SRCS +=
 OBJS +=  \
 src/ASF/avr32/components/display/dip204/dip204.o \
 src/ASF/avr32/drivers/flashc/flashc.o \
+src/ASF/avr32/drivers/pm/pm.o \
+src/ASF/avr32/drivers/pm/pm_conf_clocks.o \
+src/ASF/avr32/drivers/pm/power_clocks_lib.o \
 src/ASF/avr32/drivers/pwm/pwm.o \
 src/ASF/common/services/clock/uc3a0_a1/sysclk.o \
 src/ASF/avr32/drivers/spi/spi.o \
@@ -110,6 +117,9 @@ src/main.o
 OBJS_AS_ARGS +=  \
 src/ASF/avr32/components/display/dip204/dip204.o \
 src/ASF/avr32/drivers/flashc/flashc.o \
+src/ASF/avr32/drivers/pm/pm.o \
+src/ASF/avr32/drivers/pm/pm_conf_clocks.o \
+src/ASF/avr32/drivers/pm/power_clocks_lib.o \
 src/ASF/avr32/drivers/pwm/pwm.o \
 src/ASF/common/services/clock/uc3a0_a1/sysclk.o \
 src/ASF/avr32/drivers/spi/spi.o \
@@ -125,6 +135,9 @@ src/main.o
 C_DEPS +=  \
 src/ASF/avr32/components/display/dip204/dip204.d \
 src/ASF/avr32/drivers/flashc/flashc.d \
+src/ASF/avr32/drivers/pm/pm.d \
+src/ASF/avr32/drivers/pm/pm_conf_clocks.d \
+src/ASF/avr32/drivers/pm/power_clocks_lib.d \
 src/ASF/avr32/drivers/pwm/pwm.d \
 src/ASF/common/services/clock/uc3a0_a1/sysclk.d \
 src/ASF/avr32/drivers/spi/spi.d \
@@ -140,6 +153,9 @@ src/main.d
 C_DEPS_AS_ARGS +=  \
 src/ASF/avr32/components/display/dip204/dip204.d \
 src/ASF/avr32/drivers/flashc/flashc.d \
+src/ASF/avr32/drivers/pm/pm.d \
+src/ASF/avr32/drivers/pm/pm_conf_clocks.d \
+src/ASF/avr32/drivers/pm/power_clocks_lib.d \
 src/ASF/avr32/drivers/pwm/pwm.d \
 src/ASF/common/services/clock/uc3a0_a1/sysclk.d \
 src/ASF/avr32/drivers/spi/spi.d \
@@ -188,66 +204,79 @@ LINKER_SCRIPT_DEP+=  \
 
 
 
+
+
+
+
+
+
 src/ASF/avr32/components/display/dip204/%.o: ../src/ASF/avr32/components/display/dip204/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/flashc/%.o: ../src/ASF/avr32/drivers/flashc/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/ASF/avr32/drivers/pm/%.o: ../src/ASF/avr32/drivers/pm/%.c
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/pwm/%.o: ../src/ASF/avr32/drivers/pwm/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/common/services/clock/uc3a0_a1/%.o: ../src/ASF/common/services/clock/uc3a0_a1/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/spi/%.o: ../src/ASF/avr32/drivers/spi/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/boards/evk1100/%.o: ../src/ASF/avr32/boards/evk1100/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/gpio/%.o: ../src/ASF/avr32/drivers/gpio/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/intc/%.o: ../src/ASF/avr32/drivers/intc/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/%.o: ../src/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=EVK1100  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/avr32/boards/evk1100" -I"../src/ASF/avr32/boards" -I"../src/ASF/avr32/drivers/gpio" -I"../src" -I"../src/config" -I"../src/ASF/avr32/components/display/dip204" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashc" -I"../src/ASF/avr32/drivers/spi" -I"../src/ASF/avr32/drivers/pwm" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/avr32/drivers/pm"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc3a0512 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
@@ -258,56 +287,56 @@ src/%.o: ../src/%.c
 src/ASF/avr32/drivers/intc/%.o: ../src/ASF/avr32/drivers/intc/%.S
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/intc/%.o: ../src/ASF/avr32/drivers/intc/%.x
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/intc/%.o: ../src/ASF/avr32/drivers/intc/%.X
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/intc/%.o: ../src/ASF/avr32/drivers/intc/%.sx
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/utils/startup/%.o: ../src/ASF/avr32/utils/startup/%.S
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/utils/startup/%.o: ../src/ASF/avr32/utils/startup/%.x
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/utils/startup/%.o: ../src/ASF/avr32/utils/startup/%.X
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/utils/startup/%.o: ../src/ASF/avr32/utils/startup/%.sx
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc3a0512 -mrelax -DBOARD=EVK1100 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3A_DFP\1.0.53\include\AT32UC3A0512" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/avr32/boards/evk1100" -I "../src/ASF/avr32/boards" -I "../src/ASF/avr32/drivers/gpio" -I "../src" -I "../src/config" -I "../src/ASF/avr32/components/display/dip204" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashc" -I "../src/ASF/avr32/drivers/spi" -I "../src/ASF/avr32/drivers/pwm" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/avr32/drivers/pm"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

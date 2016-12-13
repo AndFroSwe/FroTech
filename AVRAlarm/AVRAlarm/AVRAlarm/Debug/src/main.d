@@ -74,7 +74,10 @@ src/main.d src/main.o src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/avr32/drivers/flashc/flashc.h \
  ../src/ASF/avr32/drivers/gpio/gpio.h \
  ../src/ASF/avr32/components/display/dip204/dip204.h \
- ../src/ASF/avr32/drivers/pwm/pwm.h ../src/ASF/avr32/drivers/spi/spi.h
+ ../src/ASF/avr32/drivers/pm/power_clocks_lib.h \
+ ../src/ASF/avr32/drivers/pm/pm.h ../src/ASF/avr32/drivers/pm/sleep.h \
+ ../src/ASF/avr32/drivers/pwm/pwm.h ../src/ASF/avr32/drivers/spi/spi.h \
+ ../src/main.h
 
 ../src/asf.h:
 
@@ -230,6 +233,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bi
 
 ../src/ASF/avr32/components/display/dip204/dip204.h:
 
+../src/ASF/avr32/drivers/pm/power_clocks_lib.h:
+
+../src/ASF/avr32/drivers/pm/pm.h:
+
+../src/ASF/avr32/drivers/pm/sleep.h:
+
 ../src/ASF/avr32/drivers/pwm/pwm.h:
 
 ../src/ASF/avr32/drivers/spi/spi.h:
+
+../src/main.h:

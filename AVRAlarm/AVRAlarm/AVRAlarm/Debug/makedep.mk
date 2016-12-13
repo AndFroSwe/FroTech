@@ -6,6 +6,12 @@ src\ASF\avr32\components\display\dip204\dip204.c
 
 src\ASF\avr32\drivers\flashc\flashc.c
 
+src\ASF\avr32\drivers\pm\pm.c
+
+src\ASF\avr32\drivers\pm\pm_conf_clocks.c
+
+src\ASF\avr32\drivers\pm\power_clocks_lib.c
+
 src\ASF\avr32\drivers\pwm\pwm.c
 
 src\ASF\common\services\clock\uc3a0_a1\sysclk.c
