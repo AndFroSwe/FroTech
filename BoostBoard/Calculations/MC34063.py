@@ -11,10 +11,10 @@ V_in = 5 # Input voltage [V]
 Vout_min = 9 # [V]
 Vout_max = 12 # [V]
 f_min = 100e3 # Oscillating frequency [Hz]
-I_out = 0.500 # Desired output current [A]
+I_out = 0.200 # Desired output current [A]
 V_ripple = 0.4 # Desired output ripple [V]
-V_sat = 1.5 # Saturation of output switch [V]
-V_f = 0 # Output recitfier forward voltage drop [V]
+V_sat = 0.45 # Saturation of output switch [V]
+V_f = 0.4 # Output recitfier forward voltage drop [V]
 R1 = 2.2e3 # Regulator voltage divider resistor [ohm]
 
 def calc_t_on(V_out):
