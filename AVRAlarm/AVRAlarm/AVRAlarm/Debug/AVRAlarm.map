@@ -1584,7 +1584,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
 .plt
  *(.plt)
 
-.text           0x80002008      0xa74
+.text           0x80002008      0xa84
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text.dip204_select
                 0x80002008       0x14 src/ASF/avr32/components/display/dip204/dip204.o
@@ -1676,7 +1676,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
  .text.config_dip204
                 0x8000298c       0x78 src/main.o
                 0x8000298c                config_dip204
- .text.main     0x80002a04       0x78 src/main.o
+ .text.main     0x80002a04       0x88 src/main.o
                 0x80002a04                main
  *(.text.*personality*)
  *(.gnu.warning)
@@ -1695,7 +1695,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
                 0x80002e00                PROVIDE (_etext, .)
                 0x80002e00                PROVIDE (etext, .)
 
-.rodata         0x80002e00      0x150
+.rodata         0x80002e00      0x160
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.SD_MMC_SPI_GPIO_MAP.10565
                 0x80002e00       0x20 src/ASF/avr32/boards/evk1100/init.o
@@ -1710,11 +1710,11 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
  .rodata._int_handler_table
                 0x80002e70       0xa0 src/ASF/avr32/drivers/intc/intc.o
  .rodata.str1.4
-                0x80002f10       0x10 src/main.o
+                0x80002f10       0x20 src/main.o
  .rodata.DIP204_SPI_GPIO_MAP.11802
-                0x80002f20       0x20 src/main.o
+                0x80002f30       0x20 src/main.o
  .rodata.C.61.11804
-                0x80002f40       0x10 src/main.o
+                0x80002f50       0x10 src/main.o
 
 .rodata1
  *(.rodata1)
@@ -1729,9 +1729,9 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
  *(.gcc_except_table)
  *(.gcc_except_table.*)
 
-.lalign         0x80002f50        0x0
-                0x80002f50                . = ALIGN (0x8)
-                0x80002f50                PROVIDE (_data_lma, .)
+.lalign         0x80002f60        0x0
+                0x80002f60                . = ALIGN (0x8)
+                0x80002f60                PROVIDE (_data_lma, .)
                 0x00000004                . = ORIGIN (INTRAM)
 
 .dalign         0x00000004        0x4
@@ -1797,10 +1797,10 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
 .ramtext
  *(.ramtext .ramtext.*)
 
-.ddalign        0x00000008        0x0 load address 0x80002f50
+.ddalign        0x00000008        0x0 load address 0x80002f60
                 0x00000008                . = ALIGN (0x8)
 
-.data           0x00000008        0x4 load address 0x80002f50
+.data           0x00000008        0x4 load address 0x80002f60
  *(.data .data.* .gnu.linkonce.d.*)
  .data.channel_id
                 0x00000008        0x4 src/ASF/avr32/components/display/dip204/dip204.o
@@ -1809,7 +1809,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
 .data1
  *(.data1)
 
-.balign         0x0000000c        0x4 load address 0x80002f54
+.balign         0x0000000c        0x4 load address 0x80002f64
                 0x00000010                . = ALIGN (0x8)
  *fill*         0x0000000c        0x4 
                 0x00000010                PROVIDE (_edata, .)
@@ -1984,7 +1984,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
  .debug_abbrev  0x00000c5a       0x14 src/ASF/avr32/utils/startup/trampoline_uc3.o
  .debug_abbrev  0x00000c6e      0x1ef src/main.o
 
-.debug_line     0x00000000     0x3b5a
+.debug_line     0x00000000     0x3b5c
  *(.debug_line)
  .debug_line    0x00000000      0xae9 src/ASF/avr32/components/display/dip204/dip204.o
  .debug_line    0x00000ae9      0x6c6 src/ASF/avr32/drivers/pwm/pwm.o
@@ -1995,7 +1995,7 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr32/avr32-gnu-toolchain
  .debug_line    0x00002a41      0x694 src/ASF/avr32/drivers/intc/intc.o
  .debug_line    0x000030d5       0xf2 src/ASF/avr32/utils/startup/startup_uc3.o
  .debug_line    0x000031c7       0x67 src/ASF/avr32/utils/startup/trampoline_uc3.o
- .debug_line    0x0000322e      0x92c src/main.o
+ .debug_line    0x0000322e      0x92e src/main.o
 
 .debug_frame    0x00000000      0x680
  *(.debug_frame)

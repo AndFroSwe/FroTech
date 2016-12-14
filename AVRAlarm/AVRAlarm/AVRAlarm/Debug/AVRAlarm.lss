@@ -7,17 +7,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   1 .rela.got     00000000  80002008  80002008  00002408  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  2 .text         00000a74  80002008  80002008  00002408  2**2
+  2 .text         00000a84  80002008  80002008  00002408  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   3 .exception    00000200  80002c00  80002c00  00003000  2**9
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  4 .rodata       00000150  80002e00  80002e00  00003200  2**2
+  4 .rodata       00000160  80002e00  80002e00  00003200  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   5 .dalign       00000004  00000004  00000004  00000000  2**0
                   ALLOC
-  6 .data         00000004  00000008  80002f50  00003408  2**2
+  6 .data         00000004  00000008  80002f60  00003408  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .balign       00000004  0000000c  80002f54  0000340c  2**0
+  7 .balign       00000004  0000000c  80002f64  0000340c  2**0
                   ALLOC
   8 .bss          00000110  00000010  00000010  00000000  2**2
                   ALLOC
@@ -33,7 +33,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  14 .debug_abbrev 00000e5d  00000000  00000000  00008ec7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_line   00003b5a  00000000  00000000  00009d24  2**0
+ 15 .debug_line   00003b5c  00000000  00000000  00009d24  2**0
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_frame  00000680  00000000  00000000  0000d880  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -2029,7 +2029,7 @@ idata_load_loop:
   ld.d    r4, r2++
 80002964:	c0 72       	brcc	80002972 <idata_load_loop_end>
   st.d    r0++, r4
-80002966:	fe c2 fa 16 	sub	r2,pc,-1514
+80002966:	fe c2 fa 06 	sub	r2,pc,-1530
 
 8000296a <idata_load_loop>:
   cp      r0, r1
@@ -2126,9 +2126,9 @@ void config_dip204(void)
 800029e2:	e3 cd 80 80 	ldm	sp++,r7,pc
 800029e6:	00 00       	add	r0,r0
 800029e8:	80 00       	ld.sh	r0,r0[0x0]
-800029ea:	2f 40       	sub	r0,-12
+800029ea:	2f 50       	sub	r0,-11
 800029ec:	80 00       	ld.sh	r0,r0[0x0]
-800029ee:	2f 20       	sub	r0,-14
+800029ee:	2f 30       	sub	r0,-13
 800029f0:	80 00       	ld.sh	r0,r0[0x0]
 800029f2:	27 f8       	sub	r8,127
 800029f4:	80 00       	ld.sh	r0,r0[0x0]
@@ -2149,85 +2149,93 @@ int main (void)
 {
 80002a04:	d4 01       	pushm	lr
 	board_init(); /* Initialize board */
-80002a06:	f0 1f 00 16 	mcall	80002a5c <main+0x58>
+80002a06:	f0 1f 00 19 	mcall	80002a68 <main+0x64>
 	config_dip204(); /* Configure display */
-80002a0a:	f0 1f 00 16 	mcall	80002a60 <main+0x5c>
+80002a0a:	f0 1f 00 19 	mcall	80002a6c <main+0x68>
 	dip204_init(100, true); /* Initialize display */
 80002a0e:	30 1b       	mov	r11,1
 80002a10:	36 4c       	mov	r12,100
-80002a12:	f0 1f 00 15 	mcall	80002a64 <main+0x60>
+80002a12:	f0 1f 00 18 	mcall	80002a70 <main+0x6c>
 
 	dip204_clear_display();
-80002a16:	f0 1f 00 15 	mcall	80002a68 <main+0x64>
+80002a16:	f0 1f 00 18 	mcall	80002a74 <main+0x70>
 	dip204_set_cursor_position(1,1);
 80002a1a:	30 1b       	mov	r11,1
 80002a1c:	16 9c       	mov	r12,r11
-80002a1e:	f0 1f 00 14 	mcall	80002a6c <main+0x68>
+80002a1e:	f0 1f 00 17 	mcall	80002a78 <main+0x74>
 	dip204_write_string("Hello, World!");
-80002a22:	49 4c       	lddpc	r12,80002a70 <main+0x6c>
-80002a24:	f0 1f 00 14 	mcall	80002a74 <main+0x70>
+80002a22:	49 7c       	lddpc	r12,80002a7c <main+0x78>
+80002a24:	f0 1f 00 17 	mcall	80002a80 <main+0x7c>
+	dip204_set_cursor_position(1,2);
+80002a28:	30 2b       	mov	r11,2
+80002a2a:	30 1c       	mov	r12,1
+80002a2c:	f0 1f 00 13 	mcall	80002a78 <main+0x74>
+	dip204_write_string("And the rest");
+80002a30:	49 5c       	lddpc	r12,80002a84 <main+0x80>
+80002a32:	f0 1f 00 14 	mcall	80002a80 <main+0x7c>
 	dip204_hide_cursor();
-80002a28:	f0 1f 00 14 	mcall	80002a78 <main+0x74>
+80002a36:	f0 1f 00 15 	mcall	80002a88 <main+0x84>
  * \param  delay:   (input) delay in CPU cycles before timeout.
  * \param  cpu_time: (output) internal information used by the timer API.
  */
 __always_inline static void cpu_set_timeout(unsigned long delay, t_cpu_time *cpu_time)
 {
   cpu_time->delay_start_cycle = Get_system_register(AVR32_COUNT);
-80002a2c:	e1 b8 00 42 	mfsr	r8,0x108
+80002a3a:	e1 b8 00 42 	mfsr	r8,0x108
   cpu_time->delay_end_cycle   = cpu_time->delay_start_cycle + delay;
-80002a30:	e0 79 c2 00 	mov	r9,115200
-80002a34:	f0 09 00 0a 	add	r10,r8,r9
+80002a3e:	e0 79 c2 00 	mov	r9,115200
+80002a42:	f0 09 00 0a 	add	r10,r8,r9
  *
  * \return true if timeout occurred, otherwise false.
  */
 __always_inline static unsigned long cpu_is_timeout(t_cpu_time *cpu_time)
 {
   unsigned long current_cycle_count = Get_system_register(AVR32_COUNT);
-80002a38:	e1 b9 00 42 	mfsr	r9,0x108
+80002a46:	e1 b9 00 42 	mfsr	r9,0x108
   // Test if the timeout as already occurred.
   else if (cpu_time->timer_state == CPU_TIMER_STATE_REACHED)
     return true;
 
   // If the ending cycle count of this timeout is wrapped, ...
   else if (cpu_time->delay_start_cycle > cpu_time->delay_end_cycle)
-80002a3c:	14 38       	cp.w	r8,r10
-80002a3e:	e0 88 00 08 	brls	80002a4e <main+0x4a>
+80002a4a:	14 38       	cp.w	r8,r10
+80002a4c:	e0 88 00 08 	brls	80002a5c <main+0x58>
   {
     if (current_cycle_count < cpu_time->delay_start_cycle && current_cycle_count > cpu_time->delay_end_cycle)
-80002a42:	12 38       	cp.w	r8,r9
-80002a44:	fe 98 ff fa 	brls	80002a38 <main+0x34>
-80002a48:	12 3a       	cp.w	r10,r9
-80002a4a:	c0 73       	brcs	80002a58 <main+0x54>
-80002a4c:	cf 6b       	rjmp	80002a38 <main+0x34>
+80002a50:	12 38       	cp.w	r8,r9
+80002a52:	fe 98 ff fa 	brls	80002a46 <main+0x42>
+80002a56:	12 3a       	cp.w	r10,r9
+80002a58:	c0 73       	brcs	80002a66 <main+0x62>
+80002a5a:	cf 6b       	rjmp	80002a46 <main+0x42>
     }
     return false;
   }
   else
   {
     if (current_cycle_count < cpu_time->delay_start_cycle || current_cycle_count > cpu_time->delay_end_cycle)
-80002a4e:	12 38       	cp.w	r8,r9
-80002a50:	e0 8b 00 04 	brhi	80002a58 <main+0x54>
-80002a54:	12 3a       	cp.w	r10,r9
-80002a56:	cf 12       	brcc	80002a38 <main+0x34>
-80002a58:	c0 08       	rjmp	80002a58 <main+0x54>
-80002a5a:	00 00       	add	r0,r0
-80002a5c:	80 00       	ld.sh	r0,r0[0x0]
-80002a5e:	26 d4       	sub	r4,109
-80002a60:	80 00       	ld.sh	r0,r0[0x0]
-80002a62:	29 8c       	sub	r12,-104
-80002a64:	80 00       	ld.sh	r0,r0[0x0]
-80002a66:	22 34       	sub	r4,35
+80002a5c:	12 38       	cp.w	r8,r9
+80002a5e:	e0 8b 00 04 	brhi	80002a66 <main+0x62>
+80002a62:	12 3a       	cp.w	r10,r9
+80002a64:	cf 12       	brcc	80002a46 <main+0x42>
+80002a66:	c0 08       	rjmp	80002a66 <main+0x62>
 80002a68:	80 00       	ld.sh	r0,r0[0x0]
-80002a6a:	21 dc       	sub	r12,29
+80002a6a:	26 d4       	sub	r4,109
 80002a6c:	80 00       	ld.sh	r0,r0[0x0]
-80002a6e:	21 50       	sub	r0,21
+80002a6e:	29 8c       	sub	r12,-104
 80002a70:	80 00       	ld.sh	r0,r0[0x0]
-80002a72:	2f 10       	sub	r0,-15
+80002a72:	22 34       	sub	r4,35
 80002a74:	80 00       	ld.sh	r0,r0[0x0]
-80002a76:	20 f8       	sub	r8,15
+80002a76:	21 dc       	sub	r12,29
 80002a78:	80 00       	ld.sh	r0,r0[0x0]
-80002a7a:	21 ac       	sub	r12,26
+80002a7a:	21 50       	sub	r0,21
+80002a7c:	80 00       	ld.sh	r0,r0[0x0]
+80002a7e:	2f 10       	sub	r0,-15
+80002a80:	80 00       	ld.sh	r0,r0[0x0]
+80002a82:	20 f8       	sub	r8,15
+80002a84:	80 00       	ld.sh	r0,r0[0x0]
+80002a86:	2f 20       	sub	r0,-14
+80002a88:	80 00       	ld.sh	r0,r0[0x0]
+80002a8a:	21 ac       	sub	r12,26
 
 Disassembly of section .exception:
 

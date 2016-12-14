@@ -26,8 +26,15 @@
  * Atmel Software Framework (ASF).
  */
 /*
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
+ * TODO: Button interrupts
+ * TODO: Timer interrupt/counter
+ * TODO: Display printouts
+ * TODO: Adjust backlight
+ * TODO: Logic for setting time
+ * TODO: PWM for buzzer
+ * TODO: Logic for setting alarm
  */
+
 #include <asf.h>
 #include "main.h"
 
@@ -40,6 +47,8 @@ int main (void)
 	dip204_clear_display();
 	dip204_set_cursor_position(1,1);
 	dip204_write_string("Hello, World!");
+	dip204_set_cursor_position(1,2);
+	dip204_write_string("And the rest");
 	dip204_hide_cursor();
 	delay_ms(1000);
 	while(1);
@@ -49,10 +58,10 @@ void config_dip204(void)
 {
 	static const gpio_map_t DIP204_SPI_GPIO_MAP =
 	{
-		{DIP204_SPI_SCK_PIN,  DIP204_SPI_SCK_FUNCTION },  // SPI Clock.
-		{DIP204_SPI_MISO_PIN, DIP204_SPI_MISO_FUNCTION},  // MISO.
-		{DIP204_SPI_MOSI_PIN, DIP204_SPI_MOSI_FUNCTION},  // MOSI.
-		{DIP204_SPI_NPCS_PIN, DIP204_SPI_NPCS_FUNCTION}   // Chip Select NPCS.
+		{DIP204_SPI_SCK_PIN,  DIP204_SPI_SCK_FUNCTION },  /* SPI Clock. */
+		{DIP204_SPI_MISO_PIN, DIP204_SPI_MISO_FUNCTION},  /* MISO. */
+		{DIP204_SPI_MOSI_PIN, DIP204_SPI_MOSI_FUNCTION},  /* MOSI. */
+		{DIP204_SPI_NPCS_PIN, DIP204_SPI_NPCS_FUNCTION}   /* Chip Select NPCS. */
 	};
 
 	spi_options_t spiOptions2 =
