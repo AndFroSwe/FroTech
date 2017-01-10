@@ -1,0 +1,39 @@
+* C:\Users\Andreas Fröderberg\Documents\FroTech\ISPboard\ISPboard.cir
+
+* EESchema Netlist Version 1.1 (Spice format) creation date: 1/10/2017 8:37:26 PM
+
+* To exclude a component from the Spice Netlist add [Spice_Netlist_Enabled] user FIELD set to: N
+* To reorder the component spice node sequence add [Spice_Node_Sequence] user FIELD and define sequence: 2,1,0
+
+* Sheet Name: /
+IC1  //RES /RX /TX /PD2 /PD3 ? VDD GND /PB6 /PB7 ? ? ? ? ? ? /MOSI /MISO /SCK VDD ? GND /PC0 /PC1 ? ? ? ? ATMEGA328-P		
+P2  /MISO VDD /SCK /MOSI //RES GND ISP		
+P3  /PB7 /PB6 PB		
+P4  /PC1 /PC0 PC		
+P5  /PD3 /PD2 PD		
+P6  Net-_P6-Pad1_ Net-_P6-Pad2_ LED OUT		
+P7  Net-_P7-Pad1_ Net-_P7-Pad2_ BUTTON OUT		
+D2  GND Net-_D2-Pad2_ LED 1		
+R1  Net-_D2-Pad2_ Net-_P6-Pad2_ R		
+D3  GND Net-_D3-Pad2_ LED 2		
+R2  Net-_D3-Pad2_ Net-_P6-Pad1_ R		
+SW1  Net-_P7-Pad2_ GND PUSH 1		
+SW2  Net-_P7-Pad1_ GND PUSH 2		
+R3  Net-_D4-Pad2_ VDD R		
+D4  GND Net-_D4-Pad2_ PWR LED		
+P1  GND VCC CONN_01X02		
+REG1  Net-_CBOOT1-Pad1_ VCC Net-_CBOOT1-Pad2_ GND Net-_R4-Pad2_ Net-_C1-Pad2_ Net-_R5-Pad2_ Net-_Css1-Pad2_ RT8284		
+CIN1  VCC GND 10uF		
+CBOOT1  Net-_CBOOT1-Pad1_ Net-_CBOOT1-Pad2_ 10nF		
+L1  Net-_CBOOT1-Pad2_ VDD 15uH		
+R4  VDD Net-_R4-Pad2_ 45.3k		
+R6  GND Net-_R4-Pad2_ 10k		
+C1  Net-_C1-Pad1_ Net-_C1-Pad2_ 3.3nF		
+Rc1  Net-_C1-Pad1_ GND 13k		
+R5  VCC Net-_R5-Pad2_ 100k		
+Css1  GND Net-_Css1-Pad2_ 0.1uF		
+C2  VDD GND C		
+C3  VDD GND C		
+P8  /TX /RX CONN_01X02		
+
+.end

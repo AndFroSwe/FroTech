@@ -1,4 +1,4 @@
-update=12/8/2016 1:14:24 PM
+update=1/8/2017 10:45:56 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -59,3 +59,4 @@ LibName27=atmel
 LibName28=contrib
 LibName29=valves
 LibName30=C:/Users/Andreas Fröderberg/Documents/FroLib/FroLib/roblab1
+LibName31=C:/Users/Andreas Fröderberg/Documents/FroLib/FroLib/FroLib

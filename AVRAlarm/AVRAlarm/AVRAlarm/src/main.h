@@ -13,7 +13,6 @@
 #define GPIO_SET_TIME GPIO_PUSH_BUTTON_0 /* Button for setting time */
 
 /* Includes */
-#include "intc.h"
 
 /* Function prototypes */
 void config_dip204(void); /* Configuration of SPI for dip204 display */
